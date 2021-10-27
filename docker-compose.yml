@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  app:
+    image: node:12.18.1
+    container_name: app_ornek
+    ports:
+      - "5000:5002"
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: node app.js
+    environment:
+      - NODE_ENV=production
+      - SERVER_PORT=5002
+    networks:
+      - ornek
+  nginx:
+   image: nginx
+   ports:
+    - "8080:80"
+   container_name: nginx_server
+   build:
+    context: .
+   networks:
+    - ornek
+networks:
+  ornek:
+    name: ornek_app
